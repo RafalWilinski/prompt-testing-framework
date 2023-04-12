@@ -12,3 +12,5 @@ cd prompt-testing-framework
 npm install
 npx ts-node brand-to-product.test.ts
 ```
+
+Edit `brand-to-product.test.ts` file or create your own and run it: `npx ts-node your-file.ts`
