@@ -66,6 +66,24 @@ async function testPromptAccuracy(
   };
 }
 
+export async function testMany(
+  prompts: string[],
+  testCases: TestInput[],
+  modelName: string,
+  config?: ConfigurationParameters
+) {
+  const results = await Promise.all(
+    prompts.map((prompt) => test(prompt, testCases, modelName, config))
+  );
+  const theMostAccuratePrompt = results.reduce((prev, curr) =>
+    prev.succeededCases.length > curr.succeededCases.length ? prev : curr
+  );
+
+  console.log(
+    `The most accurate prompt is: \x1b[33m${theMostAccuratePrompt.prompt}\x1b[0m`
+  );
+}
+
 export async function test(
   prompt: string,
   testCases: TestInput[],
@@ -97,5 +115,5 @@ export async function test(
     console.table(failedCases);
   }
 
-  return { failedCases, succeededCases };
+  return { failedCases, succeededCases, prompt };
 }
